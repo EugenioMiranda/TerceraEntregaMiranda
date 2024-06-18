@@ -35,10 +35,35 @@ def producto_formulario(req):
 
     if req.method == 'POST':
 
-        nuevo_producto = Producto(nombre=req.POST['nombre'], marca=req.POST['marca'], codigo=req.POST['codigo'])
-        nuevo_producto.save()
-        return render (req, "inicio.html", {})
+        miFormulario = ProductoFormulario(req.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            nuevo_producto = Producto(nombre=data['nombre'], marca=data['marca'], codigo=data['codigo'])
+            nuevo_producto.save()
+            return render (req, "inicio.html", {"mesage": "Curso creado con exito"})
+        
+        else:
+            return render (req, "inicio.html", {"mesage": "Datos invalidos"})
 
     else:
         miFormulario = ProductoFormulario()
         return render (req, "producto_formulario.html", {"miFormulario": miFormulario})
+    
+
+def busqueda_codigo(req):
+    return render (req, "busqueda_codigo.html", {})
+
+
+def buscar(req):
+     
+     if req.GET["codigo"]:
+         codigo=req.GET["codigo"]
+         nombre=Producto.objects.get(codigo=codigo)
+         return render (req, "resultadoBusqueda.html", {"nombre": nombre, "codigo": codigo})
+     
+     else:
+         return render (req, "inicio.html", {"mesage": "No enviaste el dato del codigo"})
+     
