@@ -9,6 +9,8 @@ class Producto(models.Model):
 
     codigo=models.IntegerField()
 
+    def __str__(self):
+        return f'{self.nombre} - {self.marca} - {self.codigo}'
 
 class Cliente(models.Model):
 
