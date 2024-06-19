@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Producto, Cliente, Empleado
-from .forms import ProductoFormulario
+from .forms import ProductoFormulario, ClienteFormulario
 
 # Create your views here.
 def producto(req, nombre, marca, codigo):
@@ -31,6 +31,11 @@ def empleados(req):
     return render (req, "empleados.html", {})
 
 
+
+
+
+
+
 def producto_formulario(req):
 
     if req.method == 'POST':
@@ -53,6 +58,11 @@ def producto_formulario(req):
         return render (req, "producto_formulario.html", {"miFormulario": miFormulario})
     
 
+    
+
+
+
+
 def busqueda_codigo(req):
     return render (req, "busqueda_codigo.html", {})
 
@@ -67,3 +77,45 @@ def buscar(req):
      else:
          return render (req, "inicio.html", {"mesage": "No enviaste el dato del codigo"})
      
+
+
+
+
+
+
+
+
+
+
+def cliente(req, nombre, apellido, dni, email):
+    nuevo_cliente = Cliente(nombre=nombre, apellido=apellido, dni=dni, email=email)
+    nuevo_cliente.save()
+
+    return HttpResponse(f"""
+        <p>Nombre: {nuevo_cliente.nombre} - Apellido: {nuevo_cliente.marca} - Email: {nuevo_cliente.email} - DNI: {nuevo_cliente.dni} Creado! </p>
+    """)
+
+
+
+
+
+def cliente_formulario(req):
+
+    if req.method == 'POST':
+
+        miFormulario = ClienteFormulario(req.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            nuevo_producto = Cliente(nombre=data['nombre'], apellido=data['apellido'], email=data['email'], dni=data['dni'])
+            nuevo_producto.save()
+            return render (req, "inicio.html", {"mesage": "Registrado con exito"})
+        
+        else:
+            return render (req, "inicio.html", {"mesage": "Datos invalidos"})
+
+    else:
+        miFormulario = ClienteFormulario()
+        return render (req, "cliente_formulario.html", {"miFormulario": miFormulario})

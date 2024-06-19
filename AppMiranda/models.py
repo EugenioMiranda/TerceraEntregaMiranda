@@ -18,7 +18,7 @@ class Cliente(models.Model):
 
     apellido=models.CharField(max_length=40)
 
-    email = models.EmailField(default='euuge@miranda.com')
+    email = models.EmailField()
 
     dni=models.IntegerField()
 
