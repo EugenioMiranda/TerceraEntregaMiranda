@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Producto, Cliente, Empleado
-from .forms import ProductoFormulario, ClienteFormulario
+from .forms import ProductoFormulario, ClienteFormulario, EmpleadoFormulario
 
 # Create your views here.
 def producto(req, nombre, marca, codigo):
@@ -98,7 +98,6 @@ def cliente(req, nombre, apellido, dni, email):
 
 
 
-
 def cliente_formulario(req):
 
     if req.method == 'POST':
@@ -119,3 +118,52 @@ def cliente_formulario(req):
     else:
         miFormulario = ClienteFormulario()
         return render (req, "cliente_formulario.html", {"miFormulario": miFormulario})
+    
+
+
+
+
+
+
+
+
+
+def cliente(req, nombre, apellido, dni, email):
+    nuevo_cliente = Cliente(nombre=nombre, apellido=apellido, dni=dni, email=email)
+    nuevo_cliente.save()
+
+    return HttpResponse(f"""
+        <p>Nombre: {nuevo_cliente.nombre} - Apellido: {nuevo_cliente.marca} - Email: {nuevo_cliente.email} - DNI: {nuevo_cliente.dni} Creado! </p>
+    """)
+
+
+
+
+def empleado_formulario(req):
+
+    if req.method == 'POST':
+
+        miFormulario = EmpleadoFormulario(req.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            nuevo_empleado = Empleado(nombre=data['nombre'], apellido=data['apellido'], email=data['email'], dni=data['dni'])
+            nuevo_empleado.save()
+            return render (req, "inicio.html", {"mesage": "Registrado con exito"})
+        
+        else:
+            return render (req, "inicio.html", {"mesage": "Datos invalidos"})
+
+    else:
+        miFormulario = EmpleadoFormulario()
+        return render (req, "empleado_formulario.html", {"miFormulario": miFormulario})
+    
+
+
+def lista_clientes(req):
+
+    mis_clientes = Cliente.objects.all()
+
+    return render (req, "leer_clientes.html", {"clientes": mis_clientes})

@@ -10,7 +10,7 @@ class Producto(models.Model):
     codigo=models.IntegerField()
 
     def __str__(self):
-        return f'{self.nombre} - {self.marca} - {self.codigo}'
+        return f'{self.nombre}  {self.marca}  {self.codigo}'
 
 class Cliente(models.Model):
 
@@ -21,6 +21,9 @@ class Cliente(models.Model):
     email = models.EmailField()
 
     dni=models.IntegerField()
+    
+    def __str__(self):
+        return f'{self.nombre}  {self.marca}'
 
 
 
@@ -30,8 +33,11 @@ class Empleado(models.Model):
 
     apellido=models.CharField(max_length=40)
 
-    email=models.EmailField()
+    email = models.EmailField(unique=True)
 
-    dni=models.IntegerField()
+    dni = models.IntegerField()
 
     sector=models.CharField(max_length=100, default='default_sector_value')
+
+    def __str__(self):
+        return f'{self.nombre}  {self.marca}'

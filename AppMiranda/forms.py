@@ -13,3 +13,8 @@ class ClienteFormulario(forms.Form):
     dni = forms.IntegerField()
 
 
+class EmpleadoFormulario(forms.Form):
+    nombre = forms.CharField()
+    apellido = forms.CharField()
+    email = forms.EmailField()
+    dni = forms.IntegerField()
