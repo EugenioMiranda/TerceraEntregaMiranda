@@ -1,0 +1,31 @@
+{% extends 'padre.html' %}
+
+
+{% block contenidoQueCambia %}
+     
+
+<h1>Lista de Empleados</h1>
+
+<ul>
+    
+    {% for empleado in empleados %}
+        <li>
+            {{empleado}}
+        </li>
+        <div style="display: flex; column-gap: 5px;">
+            <form action="{% url 'EliminaEmpleado' empleado.id %}" method="post">{% csrf_token %}
+                <button type="submit">Eliminar</button>
+            </form>
+            <button>
+                <a href="{% url 'EditaEmpleado' empleado.id %}"> Actualizar </a>
+            </button>
+        </div>
+    {% endfor %}
+
+        
+</ul>
+
+<a href="{% url 'EmpleadoFormulario' %}">Crear Empleado</a>
+
+
+{% endblock contenidoQueCambia %}

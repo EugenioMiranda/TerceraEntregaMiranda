@@ -23,7 +23,7 @@ class Cliente(models.Model):
     dni=models.IntegerField()
     
     def __str__(self):
-        return f'{self.nombre}  {self.marca}'
+        return f'{self.nombre}  {self.apellido}'
 
 
 
@@ -40,4 +40,4 @@ class Empleado(models.Model):
     sector=models.CharField(max_length=100, default='default_sector_value')
 
     def __str__(self):
-        return f'{self.nombre}  {self.marca}'
+        return f'{self.nombre}  {self.apellido}'
