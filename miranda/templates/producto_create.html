@@ -3,7 +3,7 @@
 
 {% block contenidoQueCambia %}
     
-<form action="{% url 'ClienteFormulario' %}" method="post">{% csrf_token %}
+<form action="{% url 'ProductoFormulario' %}" method="post">{% csrf_token %}
 
     {{miFormulario.as_p}}
 

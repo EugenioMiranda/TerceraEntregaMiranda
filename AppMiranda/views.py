@@ -5,6 +5,9 @@ from .forms import ProductoFormulario, ClienteFormulario, EmpleadoFormulario
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
 
 # Create your views here.
 def producto(req, nombre, marca, codigo):
@@ -266,3 +269,31 @@ class ProductoDelete(DeleteView):
     model = Producto
     template_name = 'producto_delete.html'
     success_url = "/app-miranda/"
+
+
+
+def login(req):
+    if req.method == 'POST':
+
+            miFormulario = AuthenticationForm(req, data=req.POST)
+
+            if miFormulario.is_valid():
+
+                data = miFormulario.cleaned_data
+
+                usuario=data["username"]
+                psw=data["password"]
+                authenticate(username=usuario, password=psw)
+
+                if user:
+                    login
+                else:
+                    return render (req, "inicio.html", {"mesage": "Datos Erroneos"})
+            
+            else:
+                return render (req, "inicio.html", {"mesage": "Datos invalidos"})
+
+    else:
+        miFormulario = AuthenticationForm()
+        return render (req, "login.html", {"miFormulario": miFormulario})
+        
