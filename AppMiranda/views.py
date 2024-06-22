@@ -236,3 +236,33 @@ def editar_empleado(req, id):
 class ProductoList(ListView):
 
     model = Producto
+    template_name = 'producto_list.html'
+    context_object_name = "productos"
+
+
+class ProductoDetail(DeleteView):
+
+    model = Producto
+    template_name = 'producto_detail.html'
+    context_object_name = "producto"
+
+class ProductoCreate(CreateView):
+
+    model = Producto
+    template_name = 'producto_create.html'
+    fields = ["nombre", "camada"]
+    success_url = "/app-miranda/"
+
+class ProductoUpdate(UpdateView):
+
+    model = Producto
+    template_name = 'producto_update.html'
+    fields = ('__all__')
+    success_url = "/app-miranda/"
+    context_object_name = "producto"
+
+class ProductoDelete(DeleteView):
+
+    model = Producto
+    template_name = 'producto_delete.html'
+    success_url = "/app-miranda/"

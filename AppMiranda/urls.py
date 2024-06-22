@@ -1,5 +1,5 @@
 from django.urls import path
-from AppMiranda.views import producto, lista_productos, inicio, productos, clientes, empleados, producto_formulario, busqueda_codigo, buscar, cliente_formulario, empleado_formulario, lista_clientes, lista_empleados, eliminar_empleado, editar_empleado
+from AppMiranda.views import *
 
 urlpatterns = [
     path('agrega-producto/<nombre>/<marca>/<codigo>', producto),
@@ -17,6 +17,11 @@ urlpatterns = [
     path('lista-productos/', lista_productos, name='ListaProductos'),
     path('elimina-empleado/<int:id>', eliminar_empleado, name='EliminaEmpleado'),
     path('edita-empleado/<int:id>', editar_empleado, name='EditaEmpleado'),
+    path('lista-producto/', ProductoList.as_view(), name='ListaProductos'),
+    path('detalle-producto/<pk>', ProductoDetail.as_view(), name='DetalleProducto'),
+    path('crea-producto/', ProductoCreate.as_view(), name='CreaProducto'),
+    path('actualiza-producto/<pk>', ProductoUpdate.as_view(), name='ActualizaProducto'),
+    path('elimina-producto/<pk>', ProductoDelete.as_view(), name='EliminaProducto'),
 ]
 
 
