@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 from AppMiranda.views import *
 
 urlpatterns = [
@@ -22,6 +23,9 @@ urlpatterns = [
     path('crea-producto/', ProductoCreate.as_view(), name='CreaProducto'),
     path('actualiza-producto/<pk>', ProductoUpdate.as_view(), name='ActualizaProducto'),
     path('elimina-producto/<pk>', ProductoDelete.as_view(), name='EliminaProducto'),
+    path('login/', login_view, name='Login'),
+    path('registrar/', register, name='Registrar'),
+    path('logout/', LogoutView.as_view(template_name="logout.html"), name='Logout'),
 ]
 
 
