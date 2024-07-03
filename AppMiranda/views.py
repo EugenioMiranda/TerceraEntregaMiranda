@@ -1,12 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Producto, Cliente, Empleado
-from .forms import ProductoFormulario, ClienteFormulario, EmpleadoFormulario
+from .models import Producto, Cliente, Empleado, Avatar
+from .forms import ProductoFormulario, ClienteFormulario, EmpleadoFormulario, AvatarFormulario
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -23,7 +23,14 @@ def producto(req, nombre, marca, codigo):
 
 
 def inicio(req):
-    return render (req, "inicio.html", {})
+
+    try:
+        avatar = Avatar.objects.get(user = req.user.id)
+        return render (req, "inicio.html", {"url":avatar.imagen.url})
+        
+    except:
+        return render (req, "inicio.html")
+
 
 def productos(req):
     return render (req, "productos.html", {})
@@ -328,4 +335,57 @@ def register(req):
         return render (req, "registro.html", {"miFormulario": miFormulario})
 
         
+@login_required()        
+def editar_perfil(req):
+
+    usuario = req.user
+
+    if req.method == 'POST':
+
+        miFormulario = UserChangeForm(req.POST, instance=req.user)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            usuario.first_name = data ["first_name"]
+            usuario.last_name = data ["last_name"]
+            usuario.email = data ["email"]
+            usuario.set_password(data["password1"])
+            
+
+            usuario.save()
+         
+            return render (req, "inicio.html", {"mesage": "Actualizado con exito"})
         
+        else:
+            return render (req, "inicio.html", {"mesage": "Datos invalidos"})
+
+    else:
+
+
+        miFormulario = UserChangeForm(instance=req.user)
+        return render (req, "editar_perfil.html", {"miFormulario": miFormulario})
+    
+
+def agregar_avatar(req):
+
+    if req.method == 'POST':
+
+        miFormulario = AvatarFormulario(req.POST, req.FILES)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+            avatar = Avatar(user=req.user, imagen=data("magen"))
+            avatar.save()
+         
+            return render (req, "inicio.html", {"mesage": "Avatar cargado con exito"})
+        
+        else:
+            return render (req, "inicio.html", {"mesage": "Datos invalidos"})
+
+    else:
+
+        miFormulario = AvatarFormulario()
+        return render (req, "agregar_avatar.html", {"miFormulario": miFormulario})
