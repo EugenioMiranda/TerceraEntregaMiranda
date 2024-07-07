@@ -2,3 +2,14 @@
     padding-right: 170px; 
     margin-left: 150px;
 }
+
+
+.masthead {
+    background-image: url("{% static 'assets/img/bg-masthead.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    height: 60vh; /* Ajusta la altura según tus necesidades */
+    color: white; /* Si quieres que el texto sea blanco */
+}
+
+
