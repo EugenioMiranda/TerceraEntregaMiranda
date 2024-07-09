@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Producto, Cliente, Empleado, Avatar
 from .forms import ProductoFormulario, ClienteFormulario, EmpleadoFormulario, AvatarFormulario
 from django.views.generic import ListView
@@ -201,12 +201,13 @@ def lista_productos(req):
 def eliminar_empleado(req, id):
 
     if req.method == 'POST':
-
-        empleado = Empleado.objects.get(id=id)
+        empleado = get_object_or_404(Empleado, id=id)
         empleado.delete()
-
         mis_empleados = Empleado.objects.all()
-    return render (req, "leer_empleados.html", {"empleados": mis_empleados})
+        return render(req, "leer_empleados.html", {"empleados": mis_empleados})
+
+    
+    return redirect('ListaEmpleados')
 
 
 

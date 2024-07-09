@@ -3,7 +3,7 @@
 
 {% block contenidoQueCambia %}
     
-<form action="{% url 'EliminarProducto' curso.id %}" method="post">{% csrf_token %}
+<form action="{% url 'EliminaProducto' producto.id %}" method="post">{% csrf_token %}
 
     <p>Esta seguro que quiere eliminar el curso?</p>
 
